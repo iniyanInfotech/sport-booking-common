@@ -13,7 +13,7 @@ Ensure you have Node.js version 18.18.0 installed. You can download it from the 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/iniyanInfotech/sport-booking-backend.git
+    git clone https://github.com/iniyanInfotech/sport-booking-common.git
     ```
 
 2. Navigate to the project directory:
