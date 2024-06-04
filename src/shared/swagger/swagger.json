@@ -1,0 +1,351 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Sports Backend API Documentation",
+    "version": "1.0.0",
+    "description": "API documentation for sports common backend"
+  },
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "FAQ": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Question"
+          },
+          "description": {
+            "type": "string",
+            "description": "Answer"
+          }
+        }
+      },
+      "ModuleContent": {
+        "type": "object",
+        "properties": {
+          "module": {
+            "type": "string",
+            "enum": ["privacy_policy", "terms"],
+            "description": "Module name",
+            "example": "privacy_policy"
+          },
+          "contents": {
+            "type": "string",
+            "description": "Contents of the module"
+          }
+        },
+        "required": ["module", "contents"]
+      },
+      "SuccessResponse": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Success message"
+          },
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the request was successful"
+          },
+          "data": {
+            "type": "object",
+            "description": "Additional data"
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/v1/": {
+      "get": {
+        "summary": "Get success status",
+        "description": "Returns a success status.",
+        "tags": ["Default"],
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/faq": {
+      "post": {
+        "summary": "Add FAQ",
+        "description": "Add a new FAQ.",
+        "tags": ["FAQ"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FAQ"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Get All FAQs",
+        "description": "Get all FAQs.",
+        "tags": ["FAQ"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/FAQ"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/faq/{faqId}": {
+      "get": {
+        "summary": "Get FAQ by FAQ ID",
+        "description": "Get a FAQ by FAQ ID.",
+        "tags": ["FAQ"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "faqId",
+            "in": "path",
+            "description": "FAQ ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FAQ"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Update FAQ",
+        "description": "Update a FAQ by FAQ ID.",
+        "tags": ["FAQ"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "faqId",
+            "in": "path",
+            "description": "FAQ ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/FAQ"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete FAQ",
+        "description": "Delete a FAQ by FAQ ID.",
+        "tags": ["FAQ"],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "faqId",
+            "in": "path",
+            "description": "FAQ ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "FAQ deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/v1/utils/:moduleName": {
+      "get": {
+        "summary": "Get Module Contents",
+        "description": "Get contents of a specific module.",
+        "tags": ["Utils"],
+        "parameters": [
+          {
+            "name": "moduleName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Name of the module (privacy_policy, terms)"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Module Contents",
+        "description": "Delete contents of a specific module.",
+        "tags": ["Utils"],
+        "parameters": [
+          {
+            "name": "moduleName",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Name of the module (privacy_policy, terms)"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Contents deleted successfully"
+          }
+        }
+      }
+    },
+    "/api/v1/utils/": {
+      "get": {
+        "summary": "Get All Utils Contents",
+        "description": "Get contents of all utils modules.",
+        "tags": ["Utils"],
+        "responses": {
+          "200": {
+            "description": "Success response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuccessResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "summary": "Add or Update Utils Contents",
+        "description": "Add or update contents of a utils module.",
+        "tags": ["Utils"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModuleContent"
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Success response",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuccessResponse"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
