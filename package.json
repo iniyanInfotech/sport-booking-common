@@ -11,6 +11,8 @@
     "dev": "yarn clean-build &&  yarn build && nodemon src/index.ts"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.590.0",
+    "@aws-sdk/client-sns": "^3.590.0",
     "@types/bcrypt": "^5.0.2",
     "@types/hpp": "^0.2.6",
     "bcrypt": "^5.1.1",
